@@ -17,8 +17,19 @@ function LoadingScreen() {
     )
 }
 
-function QuestionWidget({question, questionIndex, totalQuestions, handleSubmit}) {
+function ResultScreen({ points, totalQuestions }) {
+    return(
+        <Widget>
+            <Widget.Header>Resultado</Widget.Header>
+            <Widget.Content>Você acertou {points} de {totalQuestions}</Widget.Content>
+        </Widget>
+    )
+}
+
+function QuestionWidget({question, questionIndex, totalQuestions, handleSubmit, addPoint}) {
+    const [selectedAlternative, setSelectedAlternative] = useState(undefined)
     const questionId = `question__${questionIndex}`
+    const isCorrect = selectedAlternative === question.answer
 
     return (
         <Widget>
@@ -38,12 +49,24 @@ function QuestionWidget({question, questionIndex, totalQuestions, handleSubmit})
                 <h1>{question.title}</h1>
 
                 <p>{question.description}</p>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={(e) => {
+                    e.preventDefault()
+                    if(isCorrect) {
+                        addPoint()
+                    }
+                    handleSubmit()
+                }}>
                     {question.alternatives.map((alternative, index) => {
-                        const alternativeId = index
+                        const alternativeId = `alternative__${index}`
                         return (
-                            <Widget.Topic as='label' htmlFor={alternativeId}>
-                                <input id={alternativeId} type='radio' name={questionId} />
+                            <Widget.Topic as='label' htmlFor={alternativeId} key={alternativeId}>
+                                <input 
+                                    id={alternativeId} 
+                                    onChange={() => setSelectedAlternative(index)} 
+                                    name={questionId} 
+                                    type='radio'
+                                    required
+                                />
                                 {alternative}
                             </Widget.Topic>
                         )
@@ -59,15 +82,19 @@ function QuizPage() {
     const totalQuestions = db.questions.length
     const [questionIndex, setQuestionIndex] = useState(0)
     const question = db.questions[questionIndex]
+    const [points, setPoints] = useState(0)
 
-    function handleSubmit(e) {
-        e.preventDefault()
+    function handleSubmit() {
         const nextQuestion = questionIndex + 1
         if(nextQuestion < totalQuestions) {
             setQuestionIndex(questionIndex + 1)
         } else {
             setScreenState(screenStates.RESULT)
         }  
+    }
+
+    function addPoint() {
+        setPoints(points + 1)
     }
 
     const screenStates = {
@@ -83,9 +110,17 @@ function QuizPage() {
     <QuizBackground backgroundImage={db.bg}>
         <QuizContainer>
             <QuizLogo />
-            {screenState === screenStates.QUIZ && <QuestionWidget question={question} questionIndex={questionIndex} totalQuestions={totalQuestions} handleSubmit={handleSubmit} />}
+            {screenState === screenStates.QUIZ && 
+                <QuestionWidget 
+                    question={question} 
+                    questionIndex={questionIndex} 
+                    totalQuestions={totalQuestions} 
+                    handleSubmit={handleSubmit}
+                    addPoint={addPoint} 
+                />
+            }
             {screenState === screenStates.LOADING && <LoadingScreen />}
-            {screenState === screenStates.RESULT && <h1>Finalizado</h1>}
+            {screenState === screenStates.RESULT && <ResultScreen points={points} totalQuestions={totalQuestions + 1} />}
             <Footer />
         </QuizContainer>
         <GitHubCorner projectUrl='https://github.com/arthurDamiani' />
