@@ -104,7 +104,7 @@ function QuizPage() {
     }
     const [screenState, setScreenState] = useState(screenStates.LOADING)
 
-    useEffect(() => setTimeout(() => setScreenState(screenStates.QUIZ), 1000), [])
+    useEffect(() => setTimeout(() => setScreenState(screenStates.QUIZ), 0.5), [])
 
     return (
     <QuizBackground backgroundImage={db.bg}>
