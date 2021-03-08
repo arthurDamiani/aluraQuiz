@@ -110,7 +110,6 @@ function QuizPage() {
             {screenState === screenStates.RESULT && <ResultScreen points={points} totalQuestions={totalQuestions + 1} />}
             <Footer />
         </QuizContainer>
-        <GitHubCorner projectUrl='https://github.com/arthurDamiani' />
     </QuizBackground>
     )
 }

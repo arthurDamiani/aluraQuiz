@@ -1,6 +1,7 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import db from '../db.json'
 import Head from 'next/head'
+import GitHubCorner from '../src/components/GitHubCorner'
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -39,6 +40,7 @@ export default function App({ Component, pageProps }) {
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Component {...pageProps} />
+        <GitHubCorner projectUrl='https://github.com/arthurDamiani/aluraQuiz' />
       </ThemeProvider>
     </>
   )
