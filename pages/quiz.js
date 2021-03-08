@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import db from '../db.json'
 import Widget from '../src/components/Widget'
 import QuizBackground from '../src/components/QuizBackground'
@@ -7,15 +7,6 @@ import GitHubCorner from '../src/components/GitHubCorner'
 import QuizLogo from '../src/components/QuizLogo'
 import QuizContainer from '../src/components/QuizContainer'
 import Button from '../src/components/Button'
-
-function LoadingScreen() {
-    return(
-        <Widget>
-            <Widget.Header>carregando ...</Widget.Header>
-            <Widget.Content>[Loading Desafio...]</Widget.Content>
-        </Widget>
-    )
-}
 
 function ResultScreen({ points, totalQuestions }) {
     return(
@@ -99,12 +90,9 @@ function QuizPage() {
 
     const screenStates = {
         QUIZ: 'QUIZ',
-        LOADING: 'LOADING',
         RESULT: 'RESULT'
     }
-    const [screenState, setScreenState] = useState(screenStates.LOADING)
-
-    useEffect(() => setTimeout(() => setScreenState(screenStates.QUIZ), 0.5), [])
+    const [screenState, setScreenState] = useState(screenStates.QUIZ)
 
     return (
     <QuizBackground backgroundImage={db.bg}>
@@ -119,7 +107,6 @@ function QuizPage() {
                     addPoint={addPoint} 
                 />
             }
-            {screenState === screenStates.LOADING && <LoadingScreen />}
             {screenState === screenStates.RESULT && <ResultScreen points={points} totalQuestions={totalQuestions + 1} />}
             <Footer />
         </QuizContainer>
