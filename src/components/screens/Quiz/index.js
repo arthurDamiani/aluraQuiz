@@ -1,11 +1,10 @@
 import React, {useState} from 'react'
-import db from '../db.json'
-import Widget from '../src/components/Widget'
-import QuizBackground from '../src/components/QuizBackground'
-import Footer from '../src/components/Footer'
-import QuizLogo from '../src/components/QuizLogo'
-import QuizContainer from '../src/components/QuizContainer'
-import Button from '../src/components/Button'
+import Widget from '../../Widget'
+import QuizBackground from '../../QuizBackground'
+import Footer from '../../Footer'
+import QuizLogo from '../../QuizLogo'
+import QuizContainer from '../../QuizContainer'
+import Button from '../../Button'
 
 function ResultScreen({ points, totalQuestions }) {
     return(
@@ -68,10 +67,10 @@ function QuestionWidget({question, questionIndex, totalQuestions, handleSubmit, 
     )
 }
 
-function QuizPage() {
-    const totalQuestions = db.questions.length
+function QuizScreen({Questions, Bg}) {
+    const totalQuestions = Questions.length
     const [questionIndex, setQuestionIndex] = useState(0)
-    const question = db.questions[questionIndex]
+    const question = Questions[questionIndex]
     const [points, setPoints] = useState(0)
 
     function handleSubmit() {
@@ -94,7 +93,7 @@ function QuizPage() {
     const [screenState, setScreenState] = useState(screenStates.QUIZ)
 
     return (
-    <QuizBackground backgroundImage={db.bg}>
+    <QuizBackground backgroundImage={Bg}>
         <QuizContainer>
             <QuizLogo />
             {screenState === screenStates.QUIZ && 
@@ -113,4 +112,4 @@ function QuizPage() {
     )
 }
 
-export default QuizPage
+export default QuizScreen

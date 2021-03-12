@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import Widget from '../src/components/Widget'
 import QuizBackground from '../src/components/QuizBackground'
 import Footer from '../src/components/Footer'
-import GitHubCorner from '../src/components/GitHubCorner'
 import QuizLogo from '../src/components/QuizLogo'
 import Input from '../src/components/Input'
 import QuizContainer from '../src/components/QuizContainer'
@@ -37,6 +36,22 @@ export default function Home() {
               />
               <Button type='submit' disabled={!name}>Jogar</Button>
             </form>
+          </Widget.Content>
+        </Widget>
+        <Widget>
+          <Widget.Content>
+            <h1>Quizes da Galera</h1>
+
+            <ul>
+              {db.external.map((link) =>  {
+                const [projectName, user] = link.replace(/\//g, '').replace('https:', '').replace('.vercel.app', '').split('.')
+                return(
+                  <li key={link}>
+                    <Widget.Topic href={`/quiz/${projectName}___${user}`}>{`${projectName}/${user}`}</Widget.Topic>
+                  </li>
+                )
+              })}
+            </ul>
           </Widget.Content>
         </Widget>
         <Footer />
