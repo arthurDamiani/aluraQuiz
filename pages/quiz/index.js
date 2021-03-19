@@ -1,4 +1,4 @@
-import QuizScreen from '../../src/components/screens/Quiz'
+import QuizScreen from '../../src/screens/Quiz'
 import db from '../../db.json'
 
 function QuizPage() {

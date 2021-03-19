@@ -1,16 +1,22 @@
 import React, {useState} from 'react'
-import Widget from '../../Widget'
-import QuizBackground from '../../QuizBackground'
-import Footer from '../../Footer'
-import QuizLogo from '../../QuizLogo'
-import QuizContainer from '../../QuizContainer'
-import Button from '../../Button'
+import { useRouter } from 'next/router'
+import Widget from '../../components/Widget'
+import QuizBackground from '../../components/QuizBackground'
+import Footer from '../../components/Footer'
+import QuizLogo from '../../components/QuizLogo'
+import QuizContainer from '../../components/QuizContainer'
+import Button from '../../components/Button'
 
 function ResultScreen({ points, totalQuestions }) {
+    const router = useRouter()
+
     return(
         <Widget>
             <Widget.Header>Resultado</Widget.Header>
-            <Widget.Content>Você acertou {points} de {totalQuestions}</Widget.Content>
+            <Widget.Content>
+                Você acertou {points} de {totalQuestions}
+                <Button onClick={() => router.push('/')}>Voltar para Landing</Button>
+            </Widget.Content>
         </Widget>
     )
 }
